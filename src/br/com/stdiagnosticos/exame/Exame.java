@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Exame {
+public abstract class Exame<T extends Exame<T>> {
     private final long numeroExame;
     private Paciente paciente;
     private Medico medicoResponsavel;
@@ -27,7 +27,7 @@ public abstract class Exame {
 
     // private final List<ObservadorNotificacao> observadores = new ArrayList<>();
     private GeradorDeLaudo gerador; // Implementador (Bridge)
-    private ValidadorExame cadeiaValidador;
+    private ValidadorExame<T> cadeiaValidador;
     private EstadoExame estadoAtual = new EstadoSolicitado();
     private Laudo laudo;
     private double precoBase;
@@ -69,8 +69,8 @@ public abstract class Exame {
     public GeradorDeLaudo getGerador() { return gerador; }
     public void setGerador(GeradorDeLaudo g){ this.gerador = g; }
 
-    public ValidadorExame getCadeiaValidador() { return cadeiaValidador; }
-    public void setCadeiaValidador(ValidadorExame v){ this.cadeiaValidador = v; }
+    public ValidadorExame<T> getCadeiaValidador() { return cadeiaValidador; }
+    public void setCadeiaValidador(ValidadorExame<T> v){ this.cadeiaValidador = v; }
 
     public EstadoExame getEstadoAtual() { return estadoAtual; }
     public void setEstadoAtual(EstadoExame e){ this.estadoAtual = e; }

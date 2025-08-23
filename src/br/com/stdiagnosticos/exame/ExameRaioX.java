@@ -8,7 +8,7 @@ import br.com.stdiagnosticos.modelos.Paciente;
 
 import java.time.LocalDate;
 
-public class ExameRaioX extends Exame {
+public class ExameRaioX extends Exame<ExameRaioX> {
     private String caminhoImagem;
 
     public ExameRaioX(Paciente paciente, Medico medicoResponsavel, Convenio convenio, LocalDate dataInclusao, Prioridade prioridade, GeradorDeLaudo gerador) {
