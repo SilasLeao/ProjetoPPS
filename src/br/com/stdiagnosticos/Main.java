@@ -38,13 +38,13 @@ public class Main {
         // === Fila de prioridade ===
         FilaPrioridadeExames fila = new FilaPrioridadeExames();
 
-        Paciente paciente1 = new Paciente("P001", "Carlos Silva", "21/09/1987", "123.456.789-00", "carlos.silva@email.com");
+        Paciente paciente1 = new Paciente("P001", "Carlos Silva", "21/09/1987", "123.456.789-00", "carlos.silva@email.com", "+5583999999999");
         paciente1.adicionarNotificador(email);
 
-        Paciente paciente2 = new Paciente("P002", "Mariana Souza", "03/02/1998", "987.654.321-00", "mariana.souza@email.com");
+        Paciente paciente2 = new Paciente("P002", "Mariana Souza", "03/02/1998", "987.654.321-00", "mariana.souza@email.com", "+5583988888888");
         paciente2.adicionarNotificador(email);
 
-        Paciente paciente3 = new Paciente("P003", "Lucas Pereira", "15/11/1976", "456.789.123-00", "lucas.pereira@email.com");
+        Paciente paciente3 = new Paciente("P003", "Lucas Pereira", "15/11/1976", "456.789.123-00", "lucas.pereira@email.com", "+5583977777777");
         paciente3.adicionarNotificador(email);
         paciente3.adicionarNotificador(sms);
 
