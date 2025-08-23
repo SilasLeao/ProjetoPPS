@@ -2,6 +2,10 @@ package br.com.stdiagnosticos.laudo;
 
 import br.com.stdiagnosticos.exame.Exame;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 public class GeradorLaudoTexto extends GeradorDeLaudo {
     @Override
     protected String formato() { return "TEXTO"; }
@@ -26,6 +30,15 @@ public class GeradorLaudoTexto extends GeradorDeLaudo {
 
     @Override
     protected String renderizar(String cabecalho, String corpo, String rodape) {
-        return cabecalho + "\n" + corpo + "\n" + rodape;
+        String conteudo = cabecalho + "\n\n" + corpo + "\n\n" + rodape + "\n";
+        // Escreve arquivo simulando PDF
+        try {
+            Path p = Path.of("laudo-"+System.currentTimeMillis()+".txt");
+            Files.writeString(p, conteudo);
+            System.out.println("[Texto] Arquivo gerado em: " + p.toAbsolutePath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return conteudo;
     }
 }

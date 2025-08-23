@@ -15,10 +15,5 @@ public class EstadoSolicitado implements EstadoExame {
     }
 
     @Override
-    public void notificar(Exame exame) {
-        throw new IllegalStateException("Notificação somente após laudo pronto.");
-    }
-
-    @Override
     public String nome() { return "SOLICITADO"; }
 }

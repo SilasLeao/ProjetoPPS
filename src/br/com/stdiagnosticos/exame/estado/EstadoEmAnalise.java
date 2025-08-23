@@ -6,7 +6,7 @@ import br.com.stdiagnosticos.laudo.Laudo;
 public class EstadoEmAnalise implements EstadoExame {
     @Override
     public void validar(Exame exame) {
-        // já validado
+        System.out.println("Exame já foi validado.");
     }
 
     @Override
@@ -15,11 +15,6 @@ public class EstadoEmAnalise implements EstadoExame {
         exame.setLaudo(laudo);
         exame.setEstadoAtual(new EstadoLaudoPronto());
         System.out.printf("[Laudo] Exame #%d gerado (%s).%n", exame.getNumeroExame(), laudo.getFormato());
-    }
-
-    @Override
-    public void notificar(Exame exame) {
-        throw new IllegalStateException("Gerar laudo antes de notificar.");
     }
 
     @Override
