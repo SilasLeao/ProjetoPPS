@@ -58,16 +58,16 @@ public class Main {
         exGlicose.setPrecoBase(60.0);
 
         // Validação chain sanguíneo
-        ValidadorExame valSang = new ValidadorSanguineoBase()
+        ValidadorExame<ExameSanguineo> valSang = new ValidadorSanguineoBase()
                 .encadear(new ValidadorGlicose())
                 .encadear(new ValidadorCreatinina()); // será ignorado se não houver indicador CRETININA
-        exGlicose.setCadeiaValidador(valSang);
+        exGlicose.setCadeiaValidadorSanguuineo(valSang);
 
         // === Exame Raio-X ===
         ExameRaioX exRaioX = new ExameRaioX(paciente2, medico2, Convenio.PLANO_TOP, LocalDate.now(), Prioridade.URGENTE, geradorHTML);
         exRaioX.setCaminhoImagem("/imagens/torax-001.png"); // simulado
         exRaioX.setPrecoBase(140.0);
-        exRaioX.setCadeiaValidador(new ValidadorRaioXAssinatura());
+        exRaioX.setCadeiaValidadorRaioX(new ValidadorRaioXAssinatura());
 
         // === Exame Ressonância ===
         ExameRessonancia exResson = new ExameRessonancia(paciente3, medico3, Convenio.SEM_CONVENIO, LocalDate.now(), Prioridade.POUCO_URGENTE, geradorPDF);
@@ -79,7 +79,7 @@ public class Main {
         exResson.setPossuiMarcapasso(false);
         exResson.setPossuiImplantes(false);
         exResson.setPrecoBase(780.0);
-        exResson.setCadeiaValidador(new ValidadorRessonanciaRegras());
+        exResson.setCadeiaValidadorRessonancia(new ValidadorRessonanciaIDescricao());
 
         // === Inserção na fila de prioridade ===
         fila.inserir(exGlicose);   // ROTINA → fim

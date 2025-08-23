@@ -8,7 +8,7 @@ import br.com.stdiagnosticos.modelos.Paciente;
 
 import java.time.LocalDate;
 
-public class ExameRessonancia extends Exame<ExameRessonancia> {
+public class ExameRessonancia extends Exame {
     private String descricao;
     private String protocolo;
     private boolean usoContraste;

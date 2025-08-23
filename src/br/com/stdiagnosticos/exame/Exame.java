@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Exame<T extends Exame<T>> {
+public abstract class Exame{
     private final long numeroExame;
     private Paciente paciente;
     private Medico medicoResponsavel;
@@ -27,7 +27,12 @@ public abstract class Exame<T extends Exame<T>> {
 
     // private final List<ObservadorNotificacao> observadores = new ArrayList<>();
     private GeradorDeLaudo gerador; // Implementador (Bridge)
-    private ValidadorExame<T> cadeiaValidador;
+
+    private ValidadorExame<ExameRessonancia> cadeiaValidadorRessonancia;
+    private ValidadorExame<Exame> cadeiaValidador;
+    private ValidadorExame<ExameRaioX> cadeiaValidadorRaioX;
+    private ValidadorExame<ExameSanguineo> cadeiaValidadorSanguineo;
+
     private EstadoExame estadoAtual = new EstadoSolicitado();
     private Laudo laudo;
     private double precoBase;
@@ -69,8 +74,17 @@ public abstract class Exame<T extends Exame<T>> {
     public GeradorDeLaudo getGerador() { return gerador; }
     public void setGerador(GeradorDeLaudo g){ this.gerador = g; }
 
-    public ValidadorExame<T> getCadeiaValidador() { return cadeiaValidador; }
-    public void setCadeiaValidador(ValidadorExame<T> v){ this.cadeiaValidador = v; }
+    public ValidadorExame<ExameRessonancia> getCadeiaValidadorRessonancia() { return cadeiaValidadorRessonancia; }
+    public void setCadeiaValidadorRessonancia(ValidadorExame<ExameRessonancia> v){ this.cadeiaValidadorRessonancia = v; }
+
+    public ValidadorExame<Exame> getCadeiaValidador() { return cadeiaValidador; }
+    public void setCadeiaValidador(ValidadorExame<Exame> v){ this.cadeiaValidador = v; }
+
+    public ValidadorExame<ExameRaioX> getCadeiaValidadorRaioX() { return cadeiaValidadorRaioX; }
+    public void setCadeiaValidadorRaioX(ValidadorExame<ExameRaioX> v){ this.cadeiaValidadorRaioX = v; }
+
+    public ValidadorExame<ExameSanguineo> getCadeiaValidadorSanguineo() { return cadeiaValidadorSanguineo; }
+    public void setCadeiaValidadorSanguuineo(ValidadorExame<ExameSanguineo> v){ this.cadeiaValidadorSanguineo = v; }
 
     public EstadoExame getEstadoAtual() { return estadoAtual; }
     public void setEstadoAtual(EstadoExame e){ this.estadoAtual = e; }
