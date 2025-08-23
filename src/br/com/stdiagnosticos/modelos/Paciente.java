@@ -12,20 +12,27 @@ public class Paciente {
     private String dataNasc;
     private String cpf;
     private String email;
+    private String telefone;
     private List<ObservadorNotificacao> notificadores; // canais de notificação do paciente
     private List<Exame> exames;
 
     public Paciente(String idPaciente, String nomePaciente, String dataNasc,
-                    String cpf, String email) {
+                    String cpf, String email, String telefone) {
         this.idPaciente = idPaciente;
         this.nomePaciente = nomePaciente;
         this.dataNasc = dataNasc;
         this.cpf = cpf;
         this.email = email;
+        this.telefone = telefone;
         this.exames = new ArrayList<>();
         this.notificadores = new ArrayList<>();
     }
 
+
+
+
+    public String getTelefone() { return telefone; }
+    public void setTelefone(String telefone) { this.telefone = telefone; }
     // === Notificadores ===
     public void adicionarNotificador(ObservadorNotificacao o) {
         notificadores.add(o);
