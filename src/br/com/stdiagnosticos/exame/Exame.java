@@ -46,13 +46,6 @@ public abstract class Exame {
     public final void validar(){ estadoAtual.validar(this); }
     public final void emitirLaudo(){ estadoAtual.gerarLaudo(this); }
 
-    // === Observer ===
-    //public void adicionarObservador(ObservadorNotificacao o){ observadores.add(o); }
-    //public void removerObservador(ObservadorNotificacao o){ observadores.remove(o); }
-    //public void notificarObservadores(String msg){
-    //    for (ObservadorNotificacao o : observadores) o.notificar(this, msg);
-    //}
-
     // === Métodos que os geradores usam (Template) ===
     public abstract String descreverResultados();
     public abstract String descreverResultadosHTML();

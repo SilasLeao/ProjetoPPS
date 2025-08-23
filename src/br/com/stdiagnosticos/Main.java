@@ -19,7 +19,7 @@ public class Main {
         // === Geradores de laudo (Bridge + Template) ===
         GeradorDeLaudo geradorTexto = new GeradorLaudoTexto();
         GeradorDeLaudo geradorHTML  = new GeradorLaudoHTML();
-        GeradorDeLaudo geradorPDF   = new GeradorLaudoPDF(); // mock interno de PDF
+        GeradorDeLaudo geradorPDF   = new GeradorLaudoPDF();
 
         // === Notificadores (Observer) ===
         ObservadorNotificacao email = new NotificadorEmail();
@@ -29,7 +29,6 @@ public class Main {
         Desconto descConvenio = new DescontoConvenio(0.15);
         Desconto descIdoso    = new DescontoIdoso(0.08);
         Desconto descCampanha = new DescontoCampanha("Novembro Azul", 0.10);
-
         CalculadoraPreco calcPreco = new CalculadoraPreco()
                 .adicionar(descConvenio)
                 .adicionar(descIdoso)
@@ -38,6 +37,7 @@ public class Main {
         // === Fila de prioridade ===
         FilaPrioridadeExames fila = new FilaPrioridadeExames();
 
+        // === Pacientes ===
         Paciente paciente1 = new Paciente("P001", "Carlos Silva", "21/09/1987", "123.456.789-00", "carlos.silva@email.com", "+5583999999999");
         paciente1.adicionarNotificador(email);
 
@@ -48,28 +48,34 @@ public class Main {
         paciente3.adicionarNotificador(email);
         paciente3.adicionarNotificador(sms);
 
+        // === Médicos ===
         Medico medico1 = new Medico("M001", "Ana Torres", "CRM12345", "Cardiologia", "123.456.789-01", "ana.torres@email.com");
         Medico medico2 = new Medico("M002", "Bruno Lima", "CRM67890", "Ortopedia", "987.654.321-02", "bruno.lima@email.com");
         Medico medico3 = new Medico("M003", "Carla Mendes", "CRM54321", "Pediatria", "456.789.123-03", "carla.mendes@email.com");
 
-        // === Exame Sanguíneo: Glicose ===
+        // === Exame Sanguíneo ===
         ExameSanguineo exGlicose = new ExameSanguineo(paciente1, medico1, Convenio.AMAIS, LocalDate.now(), Prioridade.ROTINA, geradorTexto);
         exGlicose.addIndicador(new Indicador("GLICOSE", 83.0, UnidadeMedida.MG_DL));
+        exGlicose.addIndicador(new Indicador("CREATININA", 1.02, UnidadeMedida.MG_DL));
         exGlicose.setPrecoBase(60.0);
 
-        // Validação chain sanguíneo
         ValidadorExame valSang = new ValidadorSanguineoBase()
                 .encadear(new ValidadorGlicose())
-                .encadear(new ValidadorCreatinina()); // será ignorado se não houver indicador CRETININA
+                .encadear(new ValidadorCreatinina());
         exGlicose.setCadeiaValidador(valSang);
 
         // === Exame Raio-X ===
         ExameRaioX exRaioX = new ExameRaioX(paciente2, medico2, Convenio.PLANO_TOP, LocalDate.now(), Prioridade.URGENTE, geradorHTML);
-        exRaioX.setCaminhoImagem("/imagens/torax-001.png"); // simulado
+        exRaioX.setCaminhoImagem("/imagens/torax-001.png");
         exRaioX.setPrecoBase(140.0);
-        exRaioX.setCadeiaValidador(new ValidadorRaioXAssinatura());
 
-        // === Exame Ressonância ===
+        // Chain de validadores para Raio-X
+        ValidadorExame valImagemRX = new ValidadorImagemRaioX();
+        ValidadorExame valAssinaturaRX = new ValidadorAssinaturaRaioX();
+        valImagemRX.encadear(valAssinaturaRX);
+        exRaioX.setCadeiaValidador(valImagemRX);
+
+        // === Exame Ressonância Magnética ===
         ExameRessonancia exResson = new ExameRessonancia(paciente3, medico3, Convenio.SEM_CONVENIO, LocalDate.now(), Prioridade.POUCO_URGENTE, geradorPDF);
         exResson.setDescricao("Dor no joelho direito há 3 semanas.");
         exResson.setProtocolo("RM de joelho");
@@ -79,27 +85,47 @@ public class Main {
         exResson.setPossuiMarcapasso(false);
         exResson.setPossuiImplantes(false);
         exResson.setPrecoBase(780.0);
-        exResson.setCadeiaValidador(new ValidadorRessonanciaRegras());
+
+        // Cadeia de validadores para Ressonância
+        ValidadorExame valDescricao   = new ValidadorDescricaoRessonancia();
+        ValidadorExame valAssinatura  = new ValidadorAssinaturaRessonancia();
+        ValidadorExame valProtocolo   = new ValidadorProtocoloRessonancia();
+        ValidadorExame valContraste   = new ValidadorContrasteRessonancia();
+        ValidadorExame valMarcapasso  = new ValidadorMarcapassoRessonancia();
+        valDescricao.encadear(valAssinatura)
+                .encadear(valProtocolo)
+                .encadear(valContraste)
+                .encadear(valMarcapasso);
+        exResson.setCadeiaValidador(valDescricao);
 
         // === Inserção na fila de prioridade ===
-        fila.inserir(exGlicose);   // ROTINA → fim
-        fila.inserir(exRaioX);     // URGENTE → início
-        fila.inserir(exResson);    // POUCO_URGENTE → após último URGENTE
+        fila.inserir(exGlicose);
+        fila.inserir(exRaioX);
+        fila.inserir(exResson);
 
-        // === Simulação de processamento (R9) ===
+        // === Processamento dos exames ===
         while (!fila.vazia()) {
-            Exame exame = fila.retirar(); // respeita a regra de prioridade
+            Exame exame = fila.retirar();
 
-            // 1) Validação (Chain)
-            exame.validar();
+            // Validação (Chain)
+            if (exame.getCadeiaValidador() != null) {
+                try {
+                    exame.getCadeiaValidador().validar(exame);
+                    System.out.println("[Validação] Exame #" + exame.getNumeroExame() + " validado com sucesso!");
+                } catch (IllegalArgumentException e) {
+                    System.out.println("[Validação] Exame #" + exame.getNumeroExame() + " falhou: " + e.getMessage());
+                    continue;
+                }
+            }
 
-            // 2) Gera Laudo (Bridge + Template) -> Observer dispara automaticamente
+            // Geração do laudo
+            exame.setEstadoAtual(new br.com.stdiagnosticos.exame.estado.EstadoEmAnalise());
             exame.emitirLaudo();
-            // 3) Calcula preço com descontos (Strategy)
+
+            // Cálculo do preço
             double precoFinal = calcPreco.calcular(exame.getPrecoBase(), exame);
             System.out.printf("[Pagamento] Exame #%d - Base: R$ %.2f, Final: R$ %.2f%n",
                     exame.getNumeroExame(), exame.getPrecoBase(), precoFinal);
-
 
             System.out.println("-------------------------------------------------------");
         }

@@ -7,7 +7,8 @@ public class ValidadorSanguineoBase extends ValidadorExame {
     @Override
     protected void processar(Exame exame) {
         if (!(exame instanceof ExameSanguineo)) return;
-        if (((ExameSanguineo) exame).getIndicadores().isEmpty()) {
+        ExameSanguineo s = (ExameSanguineo) exame;
+        if (s.getIndicadores().isEmpty()) {
             throw new IllegalArgumentException("Exame sanguíneo deve conter ao menos um indicador.");
         }
     }
