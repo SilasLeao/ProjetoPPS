@@ -45,7 +45,6 @@ public abstract class Exame {
     // === Fluxo de alto nível para Main ===
     public final void validar(){ estadoAtual.validar(this); }
     public final void emitirLaudo(){ estadoAtual.gerarLaudo(this); }
-    public final void notificarPacientes(){ estadoAtual.notificar(this); }
 
     // === Observer ===
     //public void adicionarObservador(ObservadorNotificacao o){ observadores.add(o); }

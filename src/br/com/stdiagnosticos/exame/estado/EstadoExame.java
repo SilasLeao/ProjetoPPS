@@ -5,6 +5,5 @@ import br.com.stdiagnosticos.exame.Exame;
 public interface EstadoExame {
     void validar(Exame exame);
     void gerarLaudo(Exame exame);
-    void notificar(Exame exame);
     String nome();
 }

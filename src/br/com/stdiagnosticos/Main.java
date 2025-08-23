@@ -95,7 +95,6 @@ public class Main {
 
             // 2) Gera Laudo (Bridge + Template) -> Observer dispara automaticamente
             exame.emitirLaudo();
-
             // 3) Calcula preço com descontos (Strategy)
             double precoFinal = calcPreco.calcular(exame.getPrecoBase(), exame);
             System.out.printf("[Pagamento] Exame #%d - Base: R$ %.2f, Final: R$ %.2f%n",
