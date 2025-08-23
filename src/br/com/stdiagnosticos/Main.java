@@ -39,8 +39,14 @@ public class Main {
         FilaPrioridadeExames fila = new FilaPrioridadeExames();
 
         Paciente paciente1 = new Paciente("P001", "Carlos Silva", "21/09/1987", "123.456.789-00", "carlos.silva@email.com");
+        paciente1.adicionarNotificador(email);
+
         Paciente paciente2 = new Paciente("P002", "Mariana Souza", "03/02/1998", "987.654.321-00", "mariana.souza@email.com");
+        paciente2.adicionarNotificador(email);
+
         Paciente paciente3 = new Paciente("P003", "Lucas Pereira", "15/11/1976", "456.789.123-00", "lucas.pereira@email.com");
+        paciente3.adicionarNotificador(email);
+        paciente3.adicionarNotificador(sms);
 
         Medico medico1 = new Medico("M001", "Ana Torres", "CRM12345", "Cardiologia", "123.456.789-01", "ana.torres@email.com");
         Medico medico2 = new Medico("M002", "Bruno Lima", "CRM67890", "Ortopedia", "987.654.321-02", "bruno.lima@email.com");
@@ -48,7 +54,6 @@ public class Main {
 
         // === Exame Sanguíneo: Glicose ===
         ExameSanguineo exGlicose = new ExameSanguineo(paciente1, medico1, Convenio.AMAIS, LocalDate.now(), Prioridade.ROTINA, geradorTexto);
-        exGlicose.adicionarObservador(email);
         exGlicose.addIndicador(new Indicador("GLICOSE", 83.0, UnidadeMedida.MG_DL));
         exGlicose.setPrecoBase(60.0);
 
@@ -62,7 +67,6 @@ public class Main {
         ExameRaioX exRaioX = new ExameRaioX(paciente2, medico2, Convenio.PLANO_TOP, LocalDate.now(), Prioridade.URGENTE, geradorHTML);
         exRaioX.setCaminhoImagem("/imagens/torax-001.png"); // simulado
         exRaioX.setPrecoBase(140.0);
-        exRaioX.adicionarObservador(email);
         exRaioX.setCadeiaValidador(new ValidadorRaioXAssinatura());
 
         // === Exame Ressonância ===
@@ -75,8 +79,6 @@ public class Main {
         exResson.setPossuiMarcapasso(false);
         exResson.setPossuiImplantes(false);
         exResson.setPrecoBase(780.0);
-        exResson.adicionarObservador(email);
-        exResson.adicionarObservador(sms);
         exResson.setCadeiaValidador(new ValidadorRessonanciaRegras());
 
         // === Inserção na fila de prioridade ===
@@ -91,7 +93,7 @@ public class Main {
             // 1) Validação (Chain)
             exame.validar();
 
-            // 2) Gera Laudo (Bridge+Template) e avança estado
+            // 2) Gera Laudo (Bridge + Template) -> Observer dispara automaticamente
             exame.emitirLaudo();
 
             // 3) Calcula preço com descontos (Strategy)
@@ -99,8 +101,6 @@ public class Main {
             System.out.printf("[Pagamento] Exame #%d - Base: R$ %.2f, Final: R$ %.2f%n",
                     exame.getNumeroExame(), exame.getPrecoBase(), precoFinal);
 
-            // 4) Notifica Observadores (Observer) e finaliza estado
-            exame.notificarPacientes();
 
             System.out.println("-------------------------------------------------------");
         }

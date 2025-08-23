@@ -25,7 +25,7 @@ public abstract class Exame {
     private final LocalDate dataInclusao;
     private final Prioridade prioridade;
 
-    private final List<ObservadorNotificacao> observadores = new ArrayList<>();
+    // private final List<ObservadorNotificacao> observadores = new ArrayList<>();
     private GeradorDeLaudo gerador; // Implementador (Bridge)
     private ValidadorExame cadeiaValidador;
     private EstadoExame estadoAtual = new EstadoSolicitado();
@@ -48,11 +48,11 @@ public abstract class Exame {
     public final void notificarPacientes(){ estadoAtual.notificar(this); }
 
     // === Observer ===
-    public void adicionarObservador(ObservadorNotificacao o){ observadores.add(o); }
-    public void removerObservador(ObservadorNotificacao o){ observadores.remove(o); }
-    public void notificarObservadores(String msg){
-        for (ObservadorNotificacao o : observadores) o.notificar(this, msg);
-    }
+    //public void adicionarObservador(ObservadorNotificacao o){ observadores.add(o); }
+    //public void removerObservador(ObservadorNotificacao o){ observadores.remove(o); }
+    //public void notificarObservadores(String msg){
+    //    for (ObservadorNotificacao o : observadores) o.notificar(this, msg);
+    //}
 
     // === Métodos que os geradores usam (Template) ===
     public abstract String descreverResultados();

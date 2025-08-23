@@ -1,7 +1,7 @@
 package br.com.stdiagnosticos.modelos;
 
 import br.com.stdiagnosticos.exame.Exame;
-
+import br.com.stdiagnosticos.notificacao.ObservadorNotificacao;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ public class Paciente {
     private String dataNasc;
     private String cpf;
     private String email;
-
+    private List<ObservadorNotificacao> notificadores; // canais de notificação do paciente
     private List<Exame> exames;
 
     public Paciente(String idPaciente, String nomePaciente, String dataNasc,
@@ -23,6 +23,20 @@ public class Paciente {
         this.cpf = cpf;
         this.email = email;
         this.exames = new ArrayList<>();
+        this.notificadores = new ArrayList<>();
+    }
+
+    // === Notificadores ===
+    public void adicionarNotificador(ObservadorNotificacao o) {
+        notificadores.add(o);
+    }
+
+    public void removerNotificador(ObservadorNotificacao o) {
+        notificadores.remove(o);
+    }
+
+    public List<ObservadorNotificacao> getNotificadores() {
+        return notificadores;
     }
 
     public Paciente() {

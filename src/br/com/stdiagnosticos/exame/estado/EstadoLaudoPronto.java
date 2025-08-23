@@ -11,8 +11,8 @@ public class EstadoLaudoPronto implements EstadoExame {
 
     @Override
     public void notificar(Exame exame) {
-        String msg = "Seu laudo #" + exame.getNumeroExame() + " está disponível.";
-        exame.notificarObservadores(msg);
+        //String msg = "Seu laudo #" + exame.getNumeroExame() + " está disponível.";
+        //exame.notificarObservadores(msg);
         exame.setEstadoAtual(new EstadoNotificado());
     }
 
