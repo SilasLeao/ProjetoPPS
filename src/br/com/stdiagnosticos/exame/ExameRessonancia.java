@@ -50,8 +50,7 @@ public class ExameRessonancia extends Exame {
         StringBuilder sb = new StringBuilder("Ressonância Magnética\n");
         sb.append("Protocolo: ").append(protocolo).append("\n");
         if (usoContraste) sb.append("Contraste: ").append(tipoContraste).append(" (").append(dosagemContraste).append(")\n");
-        sb.append("Descrição: ").append(descricao).append("\n")
-                .append("Radiologista: ").append(getAssinaturaRadiologista()).append("\n");
+        sb.append("Descrição: ").append(descricao);
         return sb.toString();
     }
 
@@ -61,8 +60,7 @@ public class ExameRessonancia extends Exame {
         sb.append("<p><strong>Protocolo:</strong> ").append(protocolo).append("</p>");
         if (usoContraste) sb.append("<p><strong>Contraste:</strong> ").append(tipoContraste)
                 .append(" (").append(dosagemContraste).append(")</p>");
-        sb.append("<p><strong>Descrição:</strong> ").append(descricao).append("</p>")
-                .append("<p><strong>Radiologista:</strong> ").append(getAssinaturaRadiologista()).append("</p>");
+        sb.append("<p><strong>Descrição:</strong> ").append(descricao).append("</p>");
         return sb.toString();
     }
 }

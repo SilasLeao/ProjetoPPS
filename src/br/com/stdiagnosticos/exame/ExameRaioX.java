@@ -22,13 +22,12 @@ public class ExameRaioX extends Exame {
 
     @Override
     public String descreverResultados() {
-        return "Raio-X de Tórax\nImagem: " + caminhoImagem + "\nAssinatura Radiologista: " + getAssinaturaRadiologista() + "\n";
+        return "Raio-X de Tórax\nImagem: " + caminhoImagem;
     }
 
     @Override
     public String descreverResultadosHTML() {
         return "<h2>Raio-X de Tórax</h2>" +
-                "<p><strong>Imagem:</strong> "+caminhoImagem+"</p>" +
-                "<p><strong>Radiologista:</strong> "+getAssinaturaRadiologista()+"</p>";
+                "<p><strong>Imagem:</strong> "+caminhoImagem+"</p>";
     }
 }

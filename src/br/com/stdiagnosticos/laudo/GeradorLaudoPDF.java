@@ -12,7 +12,7 @@ import java.io.IOException;
 public class GeradorLaudoPDF extends GeradorDeLaudo {
 
     @Override
-    protected String formato() { return "PDF"; }
+    public String formato() { return "PDF"; }
 
     @Override
     protected String gerarCabecalho(Exame exame) {
