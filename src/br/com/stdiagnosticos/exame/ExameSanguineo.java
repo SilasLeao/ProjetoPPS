@@ -12,7 +12,6 @@ import java.util.*;
 public class ExameSanguineo extends Exame {
     private final List<Indicador> indicadores = new ArrayList<>();
     private final List<String> observacoes = new ArrayList<>();
-
     public ExameSanguineo(Paciente paciente, Medico medicoResponsavel, Convenio convenio, LocalDate dataInclusao, Prioridade prioridade, GeradorDeLaudo gerador) {
         super(paciente, medicoResponsavel, convenio, dataInclusao, prioridade, gerador);
     }

@@ -9,7 +9,7 @@ import java.io.PrintWriter;
 
 public class GeradorLaudoHTML extends GeradorDeLaudo {
     @Override
-    protected String formato() { return "HTML"; }
+    public String formato() { return "HTML"; }
 
     @Override
     protected String gerarCabecalho(Exame exame) {

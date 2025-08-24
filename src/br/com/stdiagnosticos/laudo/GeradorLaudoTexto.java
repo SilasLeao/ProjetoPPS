@@ -8,7 +8,7 @@ import java.nio.file.Path;
 
 public class GeradorLaudoTexto extends GeradorDeLaudo {
     @Override
-    protected String formato() { return "TEXTO"; }
+    public String formato() { return "TEXTO"; }
 
     @Override
     protected String gerarCabecalho(Exame exame) {
