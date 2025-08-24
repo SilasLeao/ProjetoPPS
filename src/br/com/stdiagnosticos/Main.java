@@ -67,7 +67,7 @@ public class Main {
         ExameRaioX exRaioX = fachadaExame.criarExameRaioX(
                 paciente2, medico2, Convenio.PLANO_TOP, LocalDate.now(), Prioridade.URGENTE, geradorHTML
         );
-        exRaioX.setCaminhoImagem("/imagens/torax-001.png");
+        exRaioX.setCaminhoImagem("src/br/com/stdiagnosticos/imagem/raiox.jpg");
         exRaioX.setPrecoBase(140.0);
         ValidadorExame valImagemRX = new ValidadorImagemRaioX().encadear(new ValidadorAssinaturaRaioX());
         exRaioX.setCadeiaValidador(valImagemRX);
