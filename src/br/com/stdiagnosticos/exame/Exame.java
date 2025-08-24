@@ -20,7 +20,6 @@ public abstract class Exame {
     private final long numeroExame;
     private Paciente paciente;
     private Medico medicoResponsavel;
-    private LocalDate dataNascimentoPaciente;
     private final Convenio convenio;
     private final LocalDate dataInclusao;
     private final Prioridade prioridade;
@@ -76,6 +75,4 @@ public abstract class Exame {
     public double getPrecoBase() { return precoBase; }
     public void setPrecoBase(double precoBase) { this.precoBase = precoBase; }
 
-    public LocalDate getDataNascimentoPaciente() { return dataNascimentoPaciente; }
-    public void setDataNascimentoPaciente(LocalDate d){ this.dataNascimentoPaciente = d; }
 }
