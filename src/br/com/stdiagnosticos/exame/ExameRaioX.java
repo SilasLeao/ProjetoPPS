@@ -27,7 +27,11 @@ public class ExameRaioX extends Exame {
 
     @Override
     public String descreverResultadosHTML() {
-        return "<h2>Raio-X de Tórax</h2>" +
-                "<p><strong>Imagem:</strong> "+caminhoImagem+"</p>";
+        StringBuilder sb = new StringBuilder();
+        sb.append("<h2>Exame de Raio-X</h2>");
+        if(caminhoImagem != null && !caminhoImagem.isEmpty()){
+            sb.append("<img src='").append(caminhoImagem).append("' width='400'/>");
+        }
+        return sb.toString();
     }
 }
