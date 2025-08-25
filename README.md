@@ -39,11 +39,6 @@ Criamos duas hierarquias de classes independentes:
 
 A "ponte" é a referência que um objeto Exame tem para um objeto GeradorDeLaudo, delegando a ele todo o trabalho de formatação.
 
-**Como a Extensibilidade é Garantida**  
-Para adicionar um novo exame (R3): basta criar uma nova classe que herda de Exame. Ela automaticamente funcionará com todos os formatos já existentes.
-
-Para adicionar um novo formato (R4): basta criar uma nova classe que implementa GeradorDeLaudo. Todos os exames existentes poderão gerar laudos neste novo formato, sem qualquer modificação.
-
 ---
 
 ### Chain of Responsibility:
@@ -54,7 +49,7 @@ Para adicionar um novo formato (R4): basta criar uma nova classe que implementa 
 
 **R5** - Adicionar as regras de validação de cada exame, de maneira extensível. Observar alguns exemplos apresentados na subseção de laudo. Novas validações estão livres no escopo deste projeto, desde que sejam coerentes.
 
-Foi usado esse padrão nesse requisito de validação porque cada exame tem um validador específico, então há a classe abstrata `ValidadorExame` que tem a variável de instância para cada tipo de validador e seus métodos que serão utilizados pelas classes concretas: o `pmo`, que é padrão para todos, e o método `processar()`, que terá uma lógica específica em cada.
+Foi usado esse padrão nesse requisito de validação porque cada exame tem um validador específico, então há a classe abstrata `ValidadorExame` que tem a variável de instância para cada tipo de validador e seus métodos que serão utilizados pelas classes concretas: o `proximo`, que é padrão para todos, e o método `processar()`, que terá uma lógica específica em cada.
 ### Observer:
 
 
